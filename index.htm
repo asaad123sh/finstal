@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Installation</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2416 50%, #1a1a1a 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #e8d5b7;
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        max-width: 900px;
+        width: 100%;
+        background: rgba(20, 15, 10, 0.9);
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        backdrop-filter: blur(10px);
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f5e6d3 50%, #d4af37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #a39068;
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+    }
+
+    .file-display {
+        background: linear-gradient(135deg, #0f0c08 0%, #1a1410 100%);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        height: 220px;
+        overflow-y: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        line-height: 1.8;
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .file-display::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .file-display::-webkit-scrollbar-track {
+        background: rgba(212, 175, 55, 0.1);
+        border-radius: 4px;
+    }
+
+    .file-display::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, #d4af37, #f5e6d3);
+        border-radius: 4px;
+    }
+
+    .file-item {
+        color: #a39068;
+        margin-bottom: 0.6rem;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+
+    .file-item.active {
+        color: #f5e6d3;
+        font-weight: bold;
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .progress-section {
+        margin: 2.5rem 0;
+    }
+
+    .progress {
+        height: 40px;
+        background: linear-gradient(135deg, #0f0c08 0%, #1a1410 100%);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid rgba(212, 175, 55, 0.3);
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6), 
+                    0 0 20px rgba(212, 175, 55, 0.1);
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #d4af37 0%, #f5e6d3 50%, #ffd700 100%);
+        width: 0%;
+        border-radius: 18px;
+        transition: width 0.1s linear;
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.8),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        position: relative;
+    }
+
+    .progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    .percentage {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        text-align: center;
+        color: #d4af37;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    button {
+        padding: 0.9rem 2.5rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    #start {
+        background: linear-gradient(135deg, #d4af37 0%, #f5e6d3 100%);
+        color: #1a1a1a;
+        border: 2px solid #d4af37;
+    }
+
+    #start:hover {
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.6), 
+                    inset 0 0 10px rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+
+    #stop {
+        background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+        color: #f5e6d3;
+        border: 2px solid #d4af37;
+    }
+
+    #stop:hover {
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4),
+                    inset 0 0 10px rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    #reset {
+        background: linear-gradient(135deg, #2d2416 0%, #3d3d2d 100%);
+        color: #d4af37;
+        border: 2px solid #d4af37;
+    }
+
+    #reset:hover {
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+</style>
+<body>
+    <div class="container">
+        <h2>✨ PREMIUM INSTALLATION ✨</h2>
+        <p class="subtitle">Loading Essential Resources</p>
+        
+        <div class="file-display" id="fileDisplay"></div>
+        
+        <div class="progress-section">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="percentage" id="percentage">0.0%</div>
+        </div>
+        
+        <div class="button-group">
+            <button id="start" type="button">▶ Start</button>
+            <button id="stop" type="button">⏸ Stop</button>
+            <button id="reset" type="button">↻ Reset</button>
+        </div>
+    </div>
+</body>
+<script>
+    const extensions = ['.pak', '.bin', '.kkl', '.jpm', '.ghq', '.xvn', '.prk', '.mls', '.fxp', '.bnx', 
+                       '.kvz', '.rtl', '.wpk', '.gnx', '.hxm', '.jvl', '.knd', '.psx', '.qrm', '.rvn',
+                       '.swb', '.txl', '.uvk', '.vxp', '.wyz', '.xrq', '.ypm', '.zlv', '.abn', '.brm',
+                       '.cxp', '.dkn', '.erv', '.fwm', '.gqx', '.hrz', '.ipm', '.jkl', '.knx', '.lpr',
+                       '.mwx', '.nyx', '.oqm', '.pvm', '.qxw', '.rxn', '.svm', '.tpl', '.uqp', '.vrm',
+                       '.wsp', '.xky', '.ypn', '.zlm', '.amx', '.bnk', '.cro', '.dpr', '.esm', '.fvx',
+                       '.grn', '.hpl', '.isx', '.jrx', '.kmv', '.lpz', '.mqp', '.nrk', '.osx', '.pwy',
+                       '.qzl', '.rvp', '.smn', '.tqx', '.uwr', '.vsx', '.wpy', '.xrm', '.yon', '.zrp',
+                       '.apx', '.bqr', '.csx', '.duw', '.evx', '.foy', '.gpr', '.hsx', '.iwy', '.jrp',
+                       '.ksx', '.luy', '.msx', '.npy', '.owx', '.pry', '.qsx', '.ruy', '.sxy', '.twy',
+                       '.upy', '.vsx', '.wry', '.xuy', '.ypy', '.zsy', '.ary', '.bsy', '.cry', '.dsy',
+                       '.esy', '.fry', '.gsy', '.hry', '.isy', '.jry', '.ksy', '.lsy', '.mry', '.nsy',
+                       '.osy', '.psy', '.qsy', '.rsy', '.ssy', '.tsy', '.usy', '.vsy', '.wsy', '.xsy'];
+    
+    const basePaths = [
+        'https://cdn.example.com/resources',
+        'https://api.service.io/v2/data',
+        'https://storage.cloud-provider.net/files',
+        'https://cdn.media.io/lib',
+        'https://resources.platform.dev/modules',
+        'https://data.analytics.app/cache',
+        'https://cache.server.net/assets',
+        'https://api.external-service.org/pkg',
+        'https://library.framework.dev/versions',
+        'https://cdn.static.io/scripts',
+        'https://backup.archive.net/data',
+        'https://deploy.infrastructure.io/release',
+        'https://repo.package.dev/dist',
+        'https://webhook.notification.io/files',
+        'https://sandbox.testing-env.dev/items',
+        'https://registry.npm-like.io/content',
+        'https://certificate.security.io/bundles',
+        'https://telemetry.monitoring.app/logs',
+        'https://proxy.relay.io/segment',
+        'https://mirror.mirror.net/download',
+        'https://stream.delivery.net/content',
+        'https://vault.secure.io/archive',
+        'https://cluster.compute.dev/nodes',
+        'https://hub.integration.app/endpoints',
+        'https://queue.messaging.io/tasks',
+        'https://database.persistence.io/records',
+        'https://service.discovery.dev/registry',
+        'https://balance.load.io/distribution',
+        'https://encrypt.cipher.io/keys',
+        'https://config.settings.dev/params',
+        'https://metric.observe.io/stats',
+        'https://event.emit.app/stream',
+        'https://cache.redis.io/memory',
+        'https://index.search.dev/indices',
+        'https://sync.replicate.io/state',
+        'https://auth.identity.io/tokens',
+        'https://rate.throttle.dev/limits',
+        'https://trace.debug.io/spans',
+        'https://alert.notify.app/channels',
+        'https://audit.compliance.io/logs',
+        'https://backup.recovery.dev/snapshots',
+        'https://release.publish.io/versions',
+        'https://patch.update.app/fixes',
+        'https://feature.experiment.dev/flags',
+        'https://vendor.third-party.io/integrations',
+        'https://account.billing.dev/invoices',
+        'https://permission.rbac.io/roles',
+        'https://session.cookie.dev/store',
+        'https://request.http.io/handlers',
+        'https://response.format.dev/templates'
+    ];
+
+    function generateRandomString(minLen, maxLen) {
+        const len = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
+        return Math.random().toString(36).substring(2, 2 + len);
+    }
+
+    function generateFakeUrls(count) {
+        const urls = [];
+        for (let i = 0; i < count; i++) {
+            const basePath = basePaths[Math.floor(Math.random() * basePaths.length)];
+            const fileNameLen = Math.random() > 0.5 ? 
+                Math.floor(Math.random() * (25 - 8) + 8) : 
+                Math.floor(Math.random() * (12 - 3) + 3);
+            const fileName = generateRandomString(fileNameLen, fileNameLen);
+            const ext = extensions[Math.floor(Math.random() * extensions.length)];
+            urls.push(`${basePath}/${fileName}${ext}`);
+        }
+        return urls;
+    }
+
+    const fakeUrls = generateFakeUrls(209);
+
+    const progressBar = document.querySelector('.progress-bar');
+    const percentageDisplay = document.getElementById('percentage');
+    const fileDisplay = document.getElementById('fileDisplay');
+    const startButton = document.getElementById('start');
+    const stopButton = document.getElementById('stop');
+    const resetButton = document.getElementById('reset');
+
+    let progress = 0;
+    let progressInterval;
+    let fileLoopInterval;
+    let isRunning = false;
+    let urlIndex = 0;
+
+    function getRandomDelay() {
+        return Math.random() * (100000 - 500) + 500;
+    }
+
+    function getRandomUrl() {
+        const url = fakeUrls[urlIndex];
+        urlIndex = (urlIndex + 1) % fakeUrls.length;
+        return url;
+    }
+
+    function addFileToDisplay(url) {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item active';
+        fileItem.textContent = `↓ ${url}`;
+        fileDisplay.appendChild(fileItem);
+        fileDisplay.scrollTop = fileDisplay.scrollHeight;
+        
+        // Keep last 15 items visible
+        const items = fileDisplay.querySelectorAll('.file-item');
+        if (items.length > 15) {
+            items[0].remove();
+        }
+        
+        setTimeout(() => {
+            fileItem.classList.remove('active');
+        }, 100);
+    }
+
+    function startFileLoop() {
+        fileLoopInterval = setInterval(() => {
+            if (isRunning) {
+                addFileToDisplay(getRandomUrl());
+            }
+        }, 50);
+    }
+
+    function stopFileLoop() {
+        if (fileLoopInterval) {
+            clearInterval(fileLoopInterval);
+            fileLoopInterval = null;
+        }
+    }
+
+    function incrementProgress() {
+        if (progress < 100) {
+            progress += 0.1;
+            if (progress > 100) progress = 100;
+            
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', Math.round(progress));
+            percentageDisplay.textContent = `${progress.toFixed(1)}%`;
+            
+            if (progress < 100) {
+                progressInterval = setTimeout(incrementProgress, getRandomDelay());
+            } else {
+                isRunning = false;
+                stopFileLoop();
+                addFileToDisplay('✓ Installation Complete!');
+            }
+        }
+    }
+
+    startButton.addEventListener('click', () => {
+        if (!isRunning) {
+            isRunning = true;
+            urlIndex = 0;
+            fileDisplay.innerHTML = '';
+            addFileToDisplay('Initializing Premium Installation...');
+            startFileLoop();
+            incrementProgress();
+        }
+    });
+
+    stopButton.addEventListener('click', () => {
+        if (progressInterval) {
+            clearTimeout(progressInterval);
+            progressInterval = null;
+        }
+        stopFileLoop();
+        isRunning = false;
+    });
+
+    resetButton.addEventListener('click', () => {
+        if (progressInterval) {
+            clearTimeout(progressInterval);
+            progressInterval = null;
+        }
+        stopFileLoop();
+        isRunning = false;
+        progress = 0;
+        urlIndex = 0;
+        progressBar.style.width = '0%';
+        progressBar.setAttribute('aria-valuenow', 0);
+        percentageDisplay.textContent = '0.0%';
+        fileDisplay.innerHTML = '';
+    });
+</script>
+</html>
